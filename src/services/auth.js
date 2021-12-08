@@ -6,5 +6,12 @@ export const authService = {
             username,
             password
         })
+    },
+    fetchMe(token) {
+        return api.call().get('/wp/v2/users/me', {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
     }
 }

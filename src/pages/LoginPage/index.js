@@ -6,8 +6,10 @@ import { useState } from 'react'
 import { validateFormData } from '../../helpers'
 import { useDispatch } from 'react-redux'
 import { actLoginAsync } from '../../store/auth/actions'
+import { useHistory } from 'react-router-dom'
 
 function LoginPage() {
+  const history = useHistory()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [formError, setFormError] = useState('')
@@ -83,7 +85,7 @@ function LoginPage() {
     dispatch(actLoginAsync(username.value, password.value))
       .then(res => {
         if (res.ok) {
-          console.log('Thành công', res)
+          history.push('/')
         } else {
           console.log('error', res.error)
           setFormError(res.error)
@@ -100,7 +102,7 @@ function LoginPage() {
           <div className="tcl-col-12 tcl-col-sm-6 block-center">
             <h1 className="form-title text-center">Đăng nhập</h1>
             <div className="form-login-register">
-              <p className='form-login__error'>{formError}</p>
+              {formError && <p className='form-login__error'>{formError}</p>}
               <form autoComplete="off" onSubmit={handleSubmit}>
                 <Input
                   label="Tên đăng nhập"
