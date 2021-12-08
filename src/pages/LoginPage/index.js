@@ -43,6 +43,23 @@ function LoginPage() {
     })
   }
 
+  function checkFormIsValid() {
+    if (formData.username.error || formData.password.error) {
+      return false
+    }
+    return true
+  }
+
+  function handleSubmit(evt) {
+    evt.preventDefault()
+
+    const isValid = checkFormIsValid()
+    if (!isValid) {
+      return console.log('Submit Error')
+    }
+    console.log('Submit Thành Công')
+  }
+
   return (
     <main className="login">
       <div className="spacing" />
@@ -51,7 +68,7 @@ function LoginPage() {
           <div className="tcl-col-12 tcl-col-sm-6 block-center">
             <h1 className="form-title text-center">Đăng nhập</h1>
             <div className="form-login-register">
-              <form autoComplete="off">
+              <form autoComplete="off" onSubmit={handleSubmit}>
                 <Input
                   label="Tên đăng nhập"
                   placeholder="Nhập tên đăng nhập ..."
