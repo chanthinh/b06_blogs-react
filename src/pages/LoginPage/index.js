@@ -3,8 +3,10 @@ import { Link } from "react-router-dom"
 import Input from '../../components/shared/Input'
 import Button from '../../components/shared/Button'
 import { useState } from 'react'
+import { validateFormData } from '../../helpers'
 
 function LoginPage() {
+  const [isFormDirty, setIsFormDirty] = useState(false)
   const [formData, setFormData] = useState({
     username: {
       value: '',
@@ -16,22 +18,9 @@ function LoginPage() {
     }
   })
 
-  function validateFormData({ value, name }) {
-    let error = ''
-    if (name === 'username' && !value) {
-      error = "Username không được rỗng"
-    }
-
-    if (name === 'password') {
-      if (!value) error = 'Password không được rỗng'
-      else if (value.length < 6) error = 'Password phải có ít nhất 6 ký tự'
-    }
-    return error
-  }
-
   function handleOnChange(evt) {
     const name = evt.target.name
-    const value = evt.target.value
+    const value = evt.target.value.trim()
     const error = validateFormData({ value, name })
 
     setFormData({
@@ -41,9 +30,31 @@ function LoginPage() {
         error
       }
     })
+
+    setIsFormDirty(true)
   }
 
   function checkFormIsValid() {
+    if (!isFormDirty) {
+      setFormData({
+        username: {
+          value: '',
+          error: validateFormData({
+            value: '',
+            name: 'username'
+          })
+        },
+        password: {
+          value: '',
+          error: validateFormData({
+            value:'',
+            name:'password'
+          })
+        }
+      })
+      return false
+    }
+
     if (formData.username.error || formData.password.error) {
       return false
     }

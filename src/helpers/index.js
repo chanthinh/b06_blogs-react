@@ -33,3 +33,16 @@ export function handleHashCategoryById(categories) {
   });
   return hashObj
 }
+
+export function validateFormData({ value, name }) {
+  let error = ''
+  if (name === 'username' && !value) {
+    error = "Username không được rỗng"
+  }
+
+  if (name === 'password') {
+    if (!value) error = 'Password không được rỗng'
+    else if (value.length < 6) error = 'Password phải có ít nhất 6 ký tự'
+  }
+  return error
+}
