@@ -11,6 +11,7 @@ function Button({
   htmlType,
   className,
   children,
+  onClick,
   ...restProps
 }) {
 
@@ -29,9 +30,16 @@ function Button({
     </>
   )
 
+    function _onClick(evt) {
+      if(!loading) {
+        onClick && onClick(evt)
+      }
+    }
+
   const injectedProps = {
     className: classes,
     type: htmlType,
+    onClick: _onClick,
     ...restProps
   }
 

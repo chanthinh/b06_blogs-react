@@ -65,3 +65,9 @@
 .form-control.form-control__has-error input {
   border: 1px solid red;
 }
+
+.form-login__error {
+  color: red;
+  text-align: center;
+  margin-bottom: 1rem;
+}

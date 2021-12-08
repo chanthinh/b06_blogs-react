@@ -4,8 +4,13 @@ import Input from '../../components/shared/Input'
 import Button from '../../components/shared/Button'
 import { useState } from 'react'
 import { validateFormData } from '../../helpers'
+import { useDispatch } from 'react-redux'
+import { actLoginAsync } from '../../store/auth/actions'
 
 function LoginPage() {
+  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
+  const [formError, setFormError] = useState('')
   const [isFormDirty, setIsFormDirty] = useState(false)
   const [formData, setFormData] = useState({
     username: {
@@ -47,8 +52,8 @@ function LoginPage() {
         password: {
           value: '',
           error: validateFormData({
-            value:'',
-            name:'password'
+            value: '',
+            name: 'password'
           })
         }
       })
@@ -68,7 +73,23 @@ function LoginPage() {
     if (!isValid) {
       return console.log('Submit Error')
     }
-    console.log('Submit Thành Công')
+    const { username, password } = formData
+    if (loading) {
+      return
+    }
+    setLoading(true)
+    setFormError('')
+
+    dispatch(actLoginAsync(username.value, password.value))
+      .then(res => {
+        if (res.ok) {
+          console.log('Thành công', res)
+        } else {
+          console.log('error', res.error)
+          setFormError(res.error)
+        }
+        setLoading(false)
+      })
   }
 
   return (
@@ -79,6 +100,7 @@ function LoginPage() {
           <div className="tcl-col-12 tcl-col-sm-6 block-center">
             <h1 className="form-title text-center">Đăng nhập</h1>
             <div className="form-login-register">
+              <p className='form-login__error'>{formError}</p>
               <form autoComplete="off" onSubmit={handleSubmit}>
                 <Input
                   label="Tên đăng nhập"
@@ -103,7 +125,7 @@ function LoginPage() {
                 />
 
                 <div className="d-flex tcl-jc-between tcl-ais-center">
-                  <Button type="primary" size="large">Đăng nhập</Button>
+                  <Button type="primary" size="large" loading={loading}>Đăng nhập</Button>
                   <Link to="/register">Đăng ký</Link>
                 </div>
               </form>
