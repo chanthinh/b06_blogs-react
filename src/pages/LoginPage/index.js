@@ -59,6 +59,8 @@ function LoginPage() {
                   name="username"
                   onChange={handleOnChange}
                   value={formData.username.value}
+                  error={formData.username.error}
+                  isShowError
                 />
                 <Input
                   type="password"
@@ -68,6 +70,8 @@ function LoginPage() {
                   name="password"
                   onChange={handleOnChange}
                   value={formData.password.value}
+                  error={formData.password.error}
+                  isShowError
                 />
 
                 <div className="d-flex tcl-jc-between tcl-ais-center">

@@ -8,6 +8,8 @@ function Input({
   type = 'text',
   className,
   icon = <IconSearch />,
+  error,
+  isShowError,
   ...restProps
 }) {
   const [localType, setLocalType] = useState(type)
@@ -29,8 +31,8 @@ function Input({
   if (type === 'search') {
     return (
       <div className="input-search">
-        { icon }
-        <input 
+        {icon}
+        <input
           className={classesSearch}
           type={localType}
           {...restProps}
@@ -40,12 +42,17 @@ function Input({
   }
 
   return (
-    <div className="form-control">
-      { label && <label>{ label }</label> }
-      { type === 'password' && (
-        <i className={classesIconPwd} onClick={handleToggleShowPwd}></i>
-      ) }
-      <input type={localType} className={className} {...restProps} />
+    <div className={cls('form-control', {
+      'form-control__has-error': error
+    })}>
+      {label && <label>{label}</label>}
+      <div className='form-control__input'>
+        {type === 'password' && (
+          <i className={classesIconPwd} onClick={handleToggleShowPwd}></i>
+        )}
+        <input type={localType} className={className} {...restProps} />
+      </div>
+      {error && isShowError && <span className='form-control__error'>{error}</span>}
     </div>
   )
 }
