@@ -3,6 +3,7 @@ import { mappingCurrentUser } from "../../helpers"
 import { authService } from "../../services/auth"
 // Action Types
 export const ACT_LOGIN_SUCCESS = 'ACT_LOGIN_SUCCESS'
+export const ACT_LOGOUT = 'ACT_LOGOUT'
 
 
 // Action
@@ -13,6 +14,12 @@ export function actLoginSuccess({user, token}) {
             user,
             token
         }
+    }
+}
+
+export function actLogout() {
+    return {
+        type: ACT_LOGOUT
     }
 }
 
@@ -30,6 +37,7 @@ export function actFetchMeAsync(token) {
                 ok: true
             }
         } catch (err) {
+            localStorage.removeItem(ACCESS_TOKEN)
             return {
                 ok: false,
                 error: 'Username hoặc Password không hợp lệ'
