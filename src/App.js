@@ -15,12 +15,14 @@ import {
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { actFetchAllCategoriesAsync } from './store/category/action';
+import { actFetchMeAsync } from './store/auth/actions';
 
 
 function App() {
 const dispatch = useDispatch()
   useEffect(()=>{
     dispatch(actFetchAllCategoriesAsync())
+    dispatch(actFetchMeAsync())
   },[dispatch])
 
   return (

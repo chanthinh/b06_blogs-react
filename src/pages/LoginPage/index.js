@@ -89,8 +89,8 @@ function LoginPage() {
         } else {
           console.log('error', res.error)
           setFormError(res.error)
+          setLoading(false)
         }
-        setLoading(false)
       })
   }
 

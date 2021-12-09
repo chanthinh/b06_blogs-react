@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN } from "../../constants"
 import { mappingCurrentUser } from "../../helpers"
 import { authService } from "../../services/auth"
 // Action Types
@@ -18,6 +19,9 @@ export function actLoginSuccess({user, token}) {
 // Action Async
 export function actFetchMeAsync(token) {
     return async dispatch => {
+        if (token===undefined) {
+            token= localStorage.getItem(ACCESS_TOKEN)
+        }
         try {
             const response = await authService.fetchMe(token)
             const user = mappingCurrentUser(response.data)
