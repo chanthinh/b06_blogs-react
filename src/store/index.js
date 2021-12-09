@@ -1,4 +1,5 @@
 import thunk from 'redux-thunk';
+import logger from 'redux-logger'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 
 import authReducer from './auth/reducer'
@@ -13,7 +14,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunk)
+  applyMiddleware(thunk, logger)
 )
 
 export default store

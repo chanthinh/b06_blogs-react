@@ -21,6 +21,15 @@ export function mappingPostData(post) {
   }
 }
 
+export function mappingCurrentUser(user) {
+  return {
+    id: user.id,
+    email: user.email,
+    nickname:user.nickname,
+    avatar: user.avatar_urls[96]
+  }
+}
+
 export function handleHashCategoryById(categories) {
   const hashObj = {}
   categories.forEach(categoryItem => {

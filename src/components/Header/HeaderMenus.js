@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 
 function HeaderMenus() {
+  const currentUser = useSelector(state => state.Auth.currentUser)
+
   return (
     <div className="tcl-col-6">
       {/* Nav */}
@@ -32,7 +35,17 @@ function HeaderMenus() {
           </li>
         </ul>
         <ul className="header-nav__lists">
-          <li className="user"><Link to="/login"><i className="icons ion-person" /> Tài khoản</Link></li>
+          {
+            currentUser ? (
+              <li className="user">
+                <Link to="/dashboard"><i className="icons ion-person" />{currentUser.nickname}</Link>
+              </li>
+            ) : (
+              <li className="user">
+                <Link to="/login"><i className="icons ion-person" /> Tài khoản</Link>
+              </li>
+            )
+          }
         </ul>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { mappingCurrentUser } from "../../helpers"
 import { authService } from "../../services/auth"
 // Action Types
 export const ACT_LOGIN_SUCCESS = 'ACT_LOGIN_SUCCESS'
@@ -19,7 +20,7 @@ export function actFetchMeAsync(token) {
     return async dispatch => {
         try {
             const response = await authService.fetchMe(token)
-            const user = response.data
+            const user = mappingCurrentUser(response.data)
             dispatch(actLoginSuccess({user, token}))
             return {
                 ok: true
