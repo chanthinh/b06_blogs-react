@@ -7,8 +7,10 @@ import { validateFormData } from '../../helpers'
 import { useDispatch } from 'react-redux'
 import { actLoginAsync } from '../../store/auth/actions'
 import { useHistory } from 'react-router-dom'
+import { useNotAuthenticated } from '../../hooks/useNotAuthenticated'
 
 function LoginPage() {
+  useNotAuthenticated()
   const history = useHistory()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)

@@ -37,7 +37,7 @@ export function actFetchMeAsync(token) {
                 ok: true
             }
         } catch (err) {
-            localStorage.removeItem(ACCESS_TOKEN)
+            dispatch(actLogout())
             return {
                 ok: false,
                 error: 'Username hoặc Password không hợp lệ'

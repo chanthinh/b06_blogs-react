@@ -6,8 +6,10 @@ import { validateFormData, validateFormRegister } from '../helpers'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { actRegisterAsync } from '../store/auth/actions'
+import { useNotAuthenticated } from '../hooks/useNotAuthenticated'
 
 function RegisterPage() {
+  useNotAuthenticated()
   const history = useHistory()
   const dispatch = useDispatch()
   const [formError, setFormError] = useState('')

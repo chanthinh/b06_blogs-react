@@ -3,7 +3,7 @@ import { ACT_LOGIN_SUCCESS, ACT_LOGOUT } from "./actions";
 
 
 const initState = {
-  token: '',
+  token: localStorage.getItem(ACCESS_TOKEN),
   currentUser: null
 }
 
