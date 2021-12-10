@@ -18,5 +18,7 @@ export const MESSAGE_FORM_ERROR = {
     // Front end error code
     email_required: 'Email không được rỗng',
     password_required:'Mật khẩu không được rỗng',
-    username_required: 'Tên đăng nhập không được rỗng'
+    username_required: 'Tên đăng nhập không được rỗng',
+
+    default: 'Có lỗi xảy ra, vui lòng thử lại'
 }

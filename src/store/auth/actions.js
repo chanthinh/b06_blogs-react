@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN } from "../../constants"
+import { ACCESS_TOKEN, MESSAGE_FORM_ERROR } from "../../constants"
 import { mappingCurrentUser } from "../../helpers"
 import { authService } from "../../services/auth"
 // Action Types
@@ -7,7 +7,7 @@ export const ACT_LOGOUT = 'ACT_LOGOUT'
 
 
 // Action
-export function actLoginSuccess({user, token}) {
+export function actLoginSuccess({ user, token }) {
     return {
         type: ACT_LOGIN_SUCCESS,
         payload: {
@@ -26,13 +26,13 @@ export function actLogout() {
 // Action Async
 export function actFetchMeAsync(token) {
     return async dispatch => {
-        if (token===undefined) {
-            token= localStorage.getItem(ACCESS_TOKEN)
+        if (token === undefined) {
+            token = localStorage.getItem(ACCESS_TOKEN)
         }
         try {
             const response = await authService.fetchMe(token)
             const user = mappingCurrentUser(response.data)
-            dispatch(actLoginSuccess({user, token}))
+            dispatch(actLoginSuccess({ user, token }))
             return {
                 ok: true
             }
@@ -61,6 +61,44 @@ export function actLoginAsync(username, password) {
             return {
                 ok: false,
                 error: 'Username hoặc Password không hợp lệ'
+            }
+        }
+    }
+}
+
+export function actRegisterAsync({
+    email,
+    username,
+    password,
+    nickname
+}) {
+    return async dispatch => {
+        try {
+            const response = await authService.register({
+                email,
+                username,
+                password,
+                nickname
+            })
+            const responseLogin = await dispatch(actLoginAsync(username, password))
+
+            if (responseLogin.ok) {
+                return { ok: true }
+            }
+
+            throw new Error(MESSAGE_FORM_ERROR.default)
+
+        } catch (err) {
+            let errorMessage = MESSAGE_FORM_ERROR.default
+            if (err.response && err.response.data && err.response.data.code) {
+                const errorCode = err.response.data.code
+                if (MESSAGE_FORM_ERROR[errorCode]) {
+                    errorMessage = MESSAGE_FORM_ERROR[errorCode]
+                }
+            }
+            return {
+                ok: false,
+                error: errorMessage
             }
         }
     }

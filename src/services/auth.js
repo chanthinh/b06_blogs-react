@@ -13,5 +13,18 @@ export const authService = {
                 Authorization: 'Bearer ' + token
             }
         })
-    }
+    },
+    register({
+        email,
+        username,
+        password,
+        nickname
+    }) {
+        return api.call().post('/wp/v2/users/register',{
+            email,
+            username,
+            password,
+            nickname
+        })
+    },
 }

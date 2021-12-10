@@ -1,14 +1,18 @@
 import './LoginPage/login.css'
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import Input from '../components/shared/Input'
 import Button from '../components/shared/Button'
 import { validateFormData, validateFormRegister } from '../helpers'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { actRegisterAsync } from '../store/auth/actions'
 
 function RegisterPage() {
+  const history = useHistory()
+  const dispatch = useDispatch()
   const [formError, setFormError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [isFormDirty, setIsFormDirty] = useState(false)
+  // const [isFormDirty, setIsFormDirty] = useState(false)
   const [formData, setFormData] = useState({
     nickname: { value: '', error: '', },
     username: { value: '', error: '', },
@@ -56,9 +60,26 @@ function RegisterPage() {
 
     const isValid = checkFormIsValid()
 
-    if (!isValid) {
+    if (!isValid || loading) {
       return
     }
+    setLoading(true)
+    setFormError('')
+
+    const actAsync = actRegisterAsync({
+      nickname: formData.nickname.value,
+      username: formData.username.value,
+      email: formData.email.value,
+      password: formData.password.value,
+    })
+    dispatch(actAsync).then(res => {
+      if (res.ok) {
+        history.push('/')
+      } else {
+        setFormError(res.error)
+        setLoading(false)
+      }
+    })
   }
 
   return (
@@ -115,7 +136,7 @@ function RegisterPage() {
                 />
 
                 <div className="d-flex tcl-jc-between tcl-ais-center">
-                  <Button type="primary" size="large">Đăng ký</Button>
+                  <Button type="primary" size="large" loading={loading}>Đăng ký</Button>
                   <Link to="/login">Bạn đã có tài khoản?</Link>
                 </div>
               </form>
