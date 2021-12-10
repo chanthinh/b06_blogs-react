@@ -10,10 +10,10 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [isFormDirty, setIsFormDirty] = useState(false)
   const [formData, setFormData] = useState({
-    nickname: { value: '', error: '', isTouched: false },
-    username: { value: '', error: '', isTouched: false },
-    email: { value: '', error: '', isTouched: false },
-    password: { value: '', error: '', isTouched: false },
+    nickname: { value: '', error: '', },
+    username: { value: '', error: '', },
+    email: { value: '', error: '', },
+    password: { value: '', error: '', },
   })
 
   function handleOnChange(evt) {
@@ -38,17 +38,12 @@ function RegisterPage() {
       .forEach(key => {
         const formValue = formData[key] // {value, error, isTouched: true/false}
 
-        if (formValue.isTouched === false) {
-          newFormData[key] = {
-            value: '',
-            isTouched: true,
-            error: validateFormRegister({ value: '', name: key })
-          }
-        } else {
-          newFormData[key] = formData[key]
+        newFormData[key] = {
+          value: formValue.value,
+          error: validateFormRegister({ value: formValue.value, name: key })
         }
       })
-      setFormData(newFormData)
+    setFormData(newFormData)
 
     if (newFormData.email.error || newFormData.username.error || newFormData.password.error) {
       return false
