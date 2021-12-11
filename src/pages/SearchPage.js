@@ -9,8 +9,8 @@ import { usePostsPaging } from "../hooks/usePostsPaging";
 
 function SearchPage() {
   const location = useLocation()
-  const dispatch = useDispatch()
   const queryStr = getQueryStr('q', location)
+  const dispatch = useDispatch()
 
   const {
     total,

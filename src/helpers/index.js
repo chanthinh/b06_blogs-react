@@ -84,3 +84,11 @@ export function validateFormRegister({ value, name }) {
   }
   return error
 }
+
+export function highlightText(queryStr, targetStr) {
+  const reg = new RegExp(queryStr, 'gi');
+  const final_str = targetStr.replace(reg, str => {
+    return '<mark>' + str + '</mark>'
+  });
+  return final_str
+}
