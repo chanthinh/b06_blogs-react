@@ -1,15 +1,53 @@
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { useParams } from "react-router-dom"
 import ArticleItem from "../components/ArticleItem"
+import PageNotFound from "../components/PageNotFound/PageNotFound"
+import IconLoading from "../components/shared/IconLoading"
 import MainTitle from "../components/shared/MainTitle"
 
 function SearchCategory() {
-    
+    const { slug } = useParams()
+    const [category, setCategory] = useState(undefined)
     const isFetchedCategories = useSelector(state => state.Category.isFetched)
-    const isFetchedById = useSelector(state => state.Category.hashCategoryById)
+    const hashCategoryById = useSelector(state => state.Category.hashCategoryById)
 
-    console.log('isFetchedCategories', isFetchedCategories)
-    console.log('hashCategoryById', isFetchedById)
+    useEffect(() => {
+        let isFound = false
+        if (isFetchedCategories) {
+            Object
+                .keys(hashCategoryById)
+                .forEach(categoryId => {
+                    const categoryValue = hashCategoryById[categoryId]
+                    if (categoryValue.slug === slug && categoryValue.lang === 'vi') {
+                        isFound = true
+                        setCategory(categoryValue)
+                    }
+                })
+            if (isFound === false) {
+                setCategory(null) // Không trỏ tới category nào cả
+            }
+        }
+    }, [isFetchedCategories, hashCategoryById])
 
+    if (category === undefined) {
+        return (
+            <div className="articles-list section">
+                <div className="tcl-container">
+                    <div className="tcl-row tcl-jc-center">
+                        <IconLoading width='150px' />
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    if (category === null) {
+        return <PageNotFound />
+    }
+
+
+    console.log('slug', slug)
     return (
         <div className="articles-list section">
             <div className="tcl-container">
@@ -26,7 +64,7 @@ function SearchCategory() {
                         />
                     </div>
                 </div>
-                
+
             </div>
         </div>
     )

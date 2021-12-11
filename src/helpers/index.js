@@ -36,7 +36,8 @@ export function handleHashCategoryById(categories) {
     hashObj[key] = {
       id: categoryItem.id,
       name: categoryItem.name,
-      slug: categoryItem.slug
+      slug: categoryItem.slug,
+      lang: categoryItem.lang
     }
   });
   return hashObj
