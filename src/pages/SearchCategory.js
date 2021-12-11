@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import ArticleItem from "../components/ArticleItem"
 import PageNotFound from "../components/PageNotFound/PageNotFound"
 import IconLoading from "../components/shared/IconLoading"
 import MainTitle from "../components/shared/MainTitle"
+import { usePostsPaging } from "../hooks/usePostsPaging"
+import { actFetchArticlesAsync } from "../store/post/actions"
 
 function SearchCategory() {
+    const dispatch = useDispatch()
     const { slug } = useParams()
     const [category, setCategory] = useState(undefined)
     const isFetchedCategories = useSelector(state => state.Category.isFetched)
@@ -31,10 +34,9 @@ function SearchCategory() {
         if (isFetchedCategories) {
             const foundId = Object
                 .keys(hashCategoryById)
-                .find(categoryId => {
-                    const categoryValue = hashCategoryById[categoryId]
-                    return categoryValue.slug === slug && categoryValue.lang === 'vi'
-                })
+                .find(categoryId =>
+                    hashCategoryById[categoryId].slug === slug && hashCategoryById[categoryId].lang === 'vi'
+                )
             if (foundId) {
                 setCategory(hashCategoryById[foundId])
             } else {
@@ -43,6 +45,23 @@ function SearchCategory() {
         }
 
     }, [isFetchedCategories, hashCategoryById, slug])
+
+    const {
+        total,
+        posts,
+        renderButtonLoadMore
+    } = usePostsPaging({
+        extraParams: { categories: category ? category.id : '' },
+    })
+
+    useEffect(() => {
+        if (category) {
+            dispatch(actFetchArticlesAsync({
+                categories: category.id
+                // perPage: 2
+            }))
+        }
+    }, [category, dispatch])
 
     if (category === undefined) {
         return (
@@ -59,26 +78,30 @@ function SearchCategory() {
     if (category === null) {
         return <PageNotFound />
     }
-
-
     console.log('slug', slug)
+
     return (
         <div className="articles-list section">
             <div className="tcl-container">
 
-                <MainTitle type="search">10 kết quả tìm kiếm với danh mục "{slug}"</MainTitle>
+                <MainTitle type="search">{total} kết quả tìm kiếm với danh mục "{slug}"</MainTitle>
 
                 <div className="tcl-row tcl-jc-center">
-                    <div className="tcl-col-12 tcl-col-md-8">
-                        <ArticleItem
-                            isStyleCard
-                            isShowCategoies
-                            isShowAvatar={false}
-                            isShowDesc={false}
-                        />
-                    </div>
+                    {
+                        posts.map(postItem => (
+                            <div key={postItem.id} className="tcl-col-12 tcl-col-md-8">
+                                <ArticleItem
+                                    isStyleCard
+                                    isShowCategoies
+                                    isShowAvatar={false}
+                                    isShowDesc={false}
+                                    post={postItem}
+                                />
+                            </div>
+                        ))
+                    }
                 </div>
-
+                {renderButtonLoadMore()}
             </div>
         </div>
     )
