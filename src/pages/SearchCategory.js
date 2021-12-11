@@ -13,22 +13,36 @@ function SearchCategory() {
     const hashCategoryById = useSelector(state => state.Category.hashCategoryById)
 
     useEffect(() => {
-        let isFound = false
+        // let isFound = false
+        // if (isFetchedCategories) {
+        //     Object
+        //         .keys(hashCategoryById)
+        //         .forEach(categoryId => {
+        //             const categoryValue = hashCategoryById[categoryId]
+        //             if (categoryValue.slug === slug && categoryValue.lang === 'vi') {
+        //                 isFound = true
+        //                 setCategory(categoryValue)
+        //             }
+        //         })
+        //     if (isFound === false) {
+        //         setCategory(null) // Không trỏ tới category nào cả
+        //     }
+        // }
         if (isFetchedCategories) {
-            Object
+            const foundId = Object
                 .keys(hashCategoryById)
-                .forEach(categoryId => {
+                .find(categoryId => {
                     const categoryValue = hashCategoryById[categoryId]
-                    if (categoryValue.slug === slug && categoryValue.lang === 'vi') {
-                        isFound = true
-                        setCategory(categoryValue)
-                    }
+                    return categoryValue.slug === slug && categoryValue.lang === 'vi'
                 })
-            if (isFound === false) {
-                setCategory(null) // Không trỏ tới category nào cả
+            if (foundId) {
+                setCategory(hashCategoryById[foundId])
+            } else {
+                setCategory(null)
             }
         }
-    }, [isFetchedCategories, hashCategoryById])
+
+    }, [isFetchedCategories, hashCategoryById, slug])
 
     if (category === undefined) {
         return (
@@ -52,7 +66,7 @@ function SearchCategory() {
         <div className="articles-list section">
             <div className="tcl-container">
 
-                <MainTitle type="search">10 kết quả tìm kiếm với danh mục "FE"</MainTitle>
+                <MainTitle type="search">10 kết quả tìm kiếm với danh mục "{slug}"</MainTitle>
 
                 <div className="tcl-row tcl-jc-center">
                     <div className="tcl-col-12 tcl-col-md-8">
