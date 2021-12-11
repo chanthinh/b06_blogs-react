@@ -1,12 +1,11 @@
-import Button from "../components/shared/Button";
 import ArticleItem from "../components/ArticleItem";
 import MainTitle from "../components/shared/MainTitle";
 import { getQueryStr } from "../helpers";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { actFetchArticlesAsync } from "../store/post/actions";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-import { useState } from "react";
+import { usePostsPaging } from "../hooks/usePostsPaging";
 
 function SearchPage() {
   const location = useLocation()
@@ -14,13 +13,12 @@ function SearchPage() {
   const queryStr = getQueryStr('q', location)
 
   const {
-    list: posts,
-    currentPage,
-    totalPages,
-    total
-  } = useSelector(state => state.Post.articlePaging)
-  const [loading, setLoading] = useState(false)
-  const hasMorePost = currentPage < totalPages
+    total,
+    posts,
+    renderButtonLoadMore
+  } = usePostsPaging({
+    extraParams: { search: queryStr },
+  })
 
   useEffect(() => {
     dispatch(actFetchArticlesAsync({
@@ -28,21 +26,6 @@ function SearchPage() {
       // perPage: 2
     }))
   }, [queryStr, dispatch])
-
-  function handleLoadMore() {
-
-    if (loading) {
-      return
-    }
-
-    setLoading(true)
-    dispatch(actFetchArticlesAsync({
-      currentPage: currentPage + 1,
-      search: queryStr
-    })).then(() => {
-      setLoading(false)
-    })
-  }
 
   return (
     <div className="articles-list section">
@@ -69,13 +52,7 @@ function SearchPage() {
         {/* <div className="text-center">
           <Button type="primary" size="large">Tải thêm</Button>
         </div> */}
-        {
-          hasMorePost && (
-            <div className="text-center">
-              <Button onClick={handleLoadMore} type="primary" size="large" loading={loading}>Tải thêm</Button>
-            </div>
-          )
-        }
+        {renderButtonLoadMore()}
       </div>
     </div>
 
