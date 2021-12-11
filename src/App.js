@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { actFetchAllCategoriesAsync } from './store/category/action';
 import { actFetchMeAsync } from './store/auth/actions';
+import SearchCategory from './pages/SearchCategory';
 
 
 function App() {
@@ -32,6 +33,9 @@ const dispatch = useDispatch()
         <Switch>
           <Route path="/post/:slug">
             <PostDetailPage />
+          </Route>
+          <Route path="/category/:slug">
+            <SearchCategory />
           </Route>
           <Route path="/search">
             <SearchPage />

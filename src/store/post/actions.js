@@ -68,7 +68,7 @@ export function actFetchArticlesAsync({
     ...restParams
 } = {}) {
     return async (dispatch) => {
-        console.log('restParams',restParams)
+        // console.log('restParams',restParams)
         try {
             const response = await postService.getArticles({
                 perPage,

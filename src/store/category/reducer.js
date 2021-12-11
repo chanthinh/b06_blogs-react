@@ -1,7 +1,8 @@
 import { ACT_FETCH_ALL_CATEGORIES } from "./action";
 
 export const initSate = {
-    hashCategoryById: {}
+    hashCategoryById: {},
+    isFetched: false
 }
 
 function reducer(categoryState = initSate, action) {
@@ -9,6 +10,7 @@ function reducer(categoryState = initSate, action) {
         case ACT_FETCH_ALL_CATEGORIES:
             return {
                 ...categoryState,
+                isFetched: true,
                 hashCategoryById: action.payload.hashCategoryById
             }
         default:
