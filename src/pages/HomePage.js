@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import ArticleGeneral from "../components/ArticleGeneral";
 import ArticleLatest from "../components/ArticleLatest";
 import ArticlePopular from "../components/ArticlePopular";
-import { actFetchArticleGeneralAsync, actFetchArticleLastestAsync, actFetchArticlePopularAsync } from "../store/post/actions";
+import { actFetchArticlesAsync, actFetchArticleLastestAsync, actFetchArticlePopularAsync } from "../store/post/actions";
 
 function HomePage() {
   const dispatch = useDispatch()
@@ -11,7 +11,7 @@ function HomePage() {
   useEffect(() => {
     dispatch(actFetchArticleLastestAsync())
     dispatch(actFetchArticlePopularAsync())
-    dispatch(actFetchArticleGeneralAsync())
+    dispatch(actFetchArticlesAsync())
   }, [dispatch])
 
   return (

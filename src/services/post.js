@@ -9,13 +9,15 @@ const postService = {
             }
         })
     },
-    getArticleGeneral({
+    getArticles({
         currentPage = 1,
-        perPage = 2
+        perPage = 2,
+        ...restParams
     } = {}) {
         return postService.getList({
             page: currentPage,
-            per_page: perPage
+            per_page: perPage,
+            ...restParams
         })
     },
     getArticleLastest() {

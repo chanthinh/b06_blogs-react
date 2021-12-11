@@ -74,6 +74,7 @@ export function actRegisterAsync({
 }) {
     return async dispatch => {
         try {
+            // eslint-disable-next-line
             const response = await authService.register({
                 email,
                 username,

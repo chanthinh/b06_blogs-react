@@ -1,8 +1,6 @@
-import { useLocation } from "react-router";
 import { MESSAGE_FORM_ERROR } from "../constants";
 
-export function GetQueryStr(name) {
-  const location = useLocation()
+export function getQueryStr(name, location) {
   return new URLSearchParams(location.search).get(name)
 }
 

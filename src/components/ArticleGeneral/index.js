@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ArticleItem from "../ArticleItem";
 import Button from "../shared/Button";
 import MainTitle from "../shared/MainTitle";
-import { actFetchArticleGeneralAsync } from '../../store/post/actions'
+import { actFetchArticlesAsync } from '../../store/post/actions'
 
 function ArticleGeneral() {
   const dispatch = useDispatch()
@@ -20,7 +20,7 @@ function ArticleGeneral() {
     }
 
     setLoading(true)
-    dispatch(actFetchArticleGeneralAsync({
+    dispatch(actFetchArticlesAsync({
       currentPage: currentPage + 1
     })).then(() => {
       setLoading(false)

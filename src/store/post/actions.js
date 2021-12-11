@@ -4,7 +4,7 @@ import postService from "../../services/post"
 // Action Types
 export const ACT_FETCH_ARTICLE_LASTEST = 'ACT_FETCH_ARTICLE_LASTEST'
 export const ACT_FETCH_ARTICLE_POPULAR = 'ACT_FETCH_ARTICLE_POPULAR'
-export const ACT_FETCH_ARTICLE_GENERAL = 'ACT_FETCH_ARTICLE_GENERAL'
+export const ACT_FETCH_ARTICLES = 'ACT_FETCH_ARTICLES'
 
 // Action
 export function actFetchArticleLastest(posts) {
@@ -25,9 +25,9 @@ export function actFetchArticlePopular(posts) {
     }
 }
 
-export function actFetchArticleGeneral({posts, currentPage, total, totalPages}) {
+export function actFetchArticles({posts, currentPage, total, totalPages}) {
     return {
-        type: ACT_FETCH_ARTICLE_GENERAL,
+        type: ACT_FETCH_ARTICLES,
         payload: {
             posts, currentPage, total, totalPages
         }
@@ -62,21 +62,24 @@ export function actFetchArticlePopularAsync() {
     }
 }
 
-export function actFetchArticleGeneralAsync({
+export function actFetchArticlesAsync({
     perPage = 2,
     currentPage = 1,
+    ...restParams
 } = {}) {
     return async (dispatch) => {
+        console.log('restParams',restParams)
         try {
-            const response = await postService.getArticleGeneral({
+            const response = await postService.getArticles({
                 perPage,
-                currentPage
+                currentPage,
+                ...restParams
             })
             const total = Number(response.headers['x-wp-total'])
             const totalPages = Number(response.headers['x-wp-totalpages'])
             const posts = response.data.map(mappingPostData)
 
-            dispatch(actFetchArticleGeneral({posts, currentPage, total, totalPages}))
+            dispatch(actFetchArticles({posts, currentPage, total, totalPages}))
         } catch (err) {
             // Todo
         }

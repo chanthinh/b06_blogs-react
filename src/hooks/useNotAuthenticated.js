@@ -11,5 +11,5 @@ export function useNotAuthenticated() {
         if (isAuthenticated) {
           history.push('/')
         }
-      }, [isAuthenticated])
+      }, [isAuthenticated, history])
 }

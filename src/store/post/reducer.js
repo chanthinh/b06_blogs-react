@@ -1,4 +1,4 @@
-import { ACT_FETCH_ARTICLE_GENERAL, ACT_FETCH_ARTICLE_LASTEST, ACT_FETCH_ARTICLE_POPULAR } from "./actions";
+import { ACT_FETCH_ARTICLES, ACT_FETCH_ARTICLE_LASTEST, ACT_FETCH_ARTICLE_POPULAR } from "./actions";
 
 
 const initState = {
@@ -18,7 +18,7 @@ function reducer(postState = initState, action) {
         ...postState,
         articleLatest: action.payload.posts
       }
-    case ACT_FETCH_ARTICLE_GENERAL:
+    case ACT_FETCH_ARTICLES:
       return {
         ...postState,
         articlePaging: {

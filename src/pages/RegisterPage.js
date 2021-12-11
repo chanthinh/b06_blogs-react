@@ -2,7 +2,7 @@ import './LoginPage/login.css'
 import { Link, useHistory } from "react-router-dom"
 import Input from '../components/shared/Input'
 import Button from '../components/shared/Button'
-import { validateFormData, validateFormRegister } from '../helpers'
+import { validateFormRegister } from '../helpers'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { actRegisterAsync } from '../store/auth/actions'
