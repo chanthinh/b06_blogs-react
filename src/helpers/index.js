@@ -29,6 +29,17 @@ export function mappingCurrentUser(user) {
   }
 }
 
+export const mappingMainMenus = menuItem => {
+  const data = {
+      id: menuItem.ID,
+      url: menuItem.url,
+      title: menuItem.title,
+      childItems: menuItem.child_items || []
+  }
+  data.childItems = data.childItems.map(mappingMainMenus)
+  return data
+}
+
 export function handleHashCategoryById(categories) {
   const hashObj = {}
   categories.forEach(categoryItem => {

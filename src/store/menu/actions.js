@@ -1,30 +1,22 @@
+import { mappingMainMenus } from "../../helpers"
 import { menuService } from "../../services/menu"
+
+export const ACT_FETCH_MAIN_MENU = 'ACT_FETCH_MAIN_MENU'
+
+export function actFetchMainMenu(mainMenus) {
+    return {
+        type: ACT_FETCH_MAIN_MENU,
+        payload: { mainMenus }
+    }
+}
 
 export function actFetchMainMenuAsync() {
     return async dispatch => {
         try {
             const response = await menuService.getAll()
-            const mainMenus = response.data.items.map(menuItem => {
-                const data = {
-                    id: menuItem.ID,
-                    url:menuItem.url,
-                    title: menuItem.title,
-                    childItems: menuItem.child_items || []
-                }
+            const mainMenus = response.data.items.map(mappingMainMenus)
 
-                data.childItems = data.childItems.map(menuChildItem=>{
-                    const data = {
-                        id: menuChildItem.ID,
-                        url:menuChildItem.url,
-                        title: menuChildItem.title,
-                        childItems: menuChildItem.menuChildItem || []
-                    }
-                    return data
-                })
-
-                return data
-            })
-            console.log('mainMenus', mainMenus)
+            dispatch(actFetchMainMenu(mainMenus))
         } catch (err) {
 
         }
