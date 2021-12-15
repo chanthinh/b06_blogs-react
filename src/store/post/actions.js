@@ -1,10 +1,13 @@
-import { mappingPostData } from "../../helpers"
+import { mappingPostData, mappingPostDetailData } from "../../helpers"
 import postService from "../../services/post"
 
 // Action Types
 export const ACT_FETCH_ARTICLE_LASTEST = 'ACT_FETCH_ARTICLE_LASTEST'
 export const ACT_FETCH_ARTICLE_POPULAR = 'ACT_FETCH_ARTICLE_POPULAR'
 export const ACT_FETCH_ARTICLES = 'ACT_FETCH_ARTICLES'
+export const ACT_FETCH_POST_DETAIL = 'ACT_FETCH_POST_DETAIL'
+export const ACT_FETCH_RELATED_POSTS = 'ACT_FETCH_RELATED_POSTS'
+
 
 // Action
 export function actFetchArticleLastest(posts) {
@@ -25,11 +28,29 @@ export function actFetchArticlePopular(posts) {
     }
 }
 
-export function actFetchArticles({posts, currentPage, total, totalPages}) {
+export function actFetchArticles({ posts, currentPage, total, totalPages }) {
     return {
         type: ACT_FETCH_ARTICLES,
         payload: {
             posts, currentPage, total, totalPages
+        }
+    }
+}
+
+export function actFetchPostDetail(post) {
+    return {
+        type: ACT_FETCH_POST_DETAIL,
+        payload: {
+            post
+        }
+    }
+}
+
+export function actFetchRelatedPosts(posts) {
+    return {
+        type: ACT_FETCH_RELATED_POSTS,
+        payload: {
+            posts
         }
     }
 }
@@ -79,9 +100,49 @@ export function actFetchArticlesAsync({
             const totalPages = Number(response.headers['x-wp-totalpages'])
             const posts = response.data.map(mappingPostData)
 
-            dispatch(actFetchArticles({posts, currentPage, total, totalPages}))
+            dispatch(actFetchArticles({ posts, currentPage, total, totalPages }))
         } catch (err) {
             // Todo
+        }
+    }
+}
+
+export function actFetchPostDetailAsync(slug) {
+    return async dispatch => {
+        try {
+            const response = await postService.getDetail(slug)
+            // console.log('response', response)
+            const post = response.data[0]
+
+            if (!post) {
+                throw new Error('Post Not Found')
+            }
+
+            const postId = post.id
+            const authorId = post.author
+
+            dispatch(actFetchPostDetail(mappingPostDetailData(post)))
+            await dispatch(actFetchRelatedPostsAsync({ postId, authorId }))
+
+            return { ok: true }
+        } catch (err) {
+            return { ok: false }
+        }
+    }
+}
+
+export function actFetchRelatedPostsAsync({ postId, authorId }) {
+    return async dispatch => {
+        try {
+            const response = await postService.getList({
+                author: authorId,
+                exclude: postId,
+                per_page: 3
+            })
+            const posts = response.data.map(mappingPostData)
+            dispatch(actFetchRelatedPosts(posts))
+        } catch (err) {
+
         }
     }
 }

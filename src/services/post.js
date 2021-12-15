@@ -32,6 +32,11 @@ const postService = {
             per_page: 3,
             orderby: 'post_views',
         })
+    },
+    getDetail(slug) {
+        return postService.getList({
+            slug
+        })
     }
 }
 

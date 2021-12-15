@@ -31,13 +31,22 @@ export function mappingCurrentUser(user) {
 
 export const mappingMainMenus = menuItem => {
   const data = {
-      id: menuItem.ID,
-      url: menuItem.url,
-      title: menuItem.title,
-      childItems: menuItem.child_items || []
+    id: menuItem.ID,
+    url: menuItem.url,
+    title: menuItem.title,
+    childItems: menuItem.child_items || []
   }
   data.childItems = data.childItems.map(mappingMainMenus)
   return data
+}
+
+export function mappingPostDetailData(post) {
+  return {
+    ...mappingPostData(post),
+    tagsId: post.tags,
+    contentHTML: post.content.rendered,
+    commentCount: post.comment_count
+  }
 }
 
 export function handleHashCategoryById(categories) {
