@@ -18,6 +18,7 @@ import { actFetchAllCategoriesAsync } from './store/category/actions';
 import { actFetchMeAsync } from './store/auth/actions';
 import SearchCategory from './pages/SearchCategory';
 import { actFetchMainMenuAsync } from './store/menu/actions';
+import { ROUTER_POST } from './constants';
 
 
 function App() {
@@ -33,7 +34,7 @@ const dispatch = useDispatch()
       <div className="wrapper-content">
         <Header />
         <Switch>
-          <Route path="/post/:slug">
+          <Route path={ROUTER_POST}>
             <PostDetailPage />
           </Route>
           <Route path="/category/:slug">

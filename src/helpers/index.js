@@ -1,4 +1,6 @@
-import { MESSAGE_FORM_ERROR } from "../constants";
+import { MESSAGE_FORM_ERROR, ROUTER_POST } from "../constants";
+
+export { formatRelativeDate } from './day'
 
 export function getQueryStr(name, location) {
   return new URLSearchParams(location.search).get(name)
@@ -112,4 +114,12 @@ export function highlightText(queryStr, targetStr) {
     return '<mark>' + str + '</mark>'
   });
   return final_str
+}
+
+export function genUserLink(authorId) {
+  return `/user/${authorId}`
+}
+
+export function genPostLink(slug) {
+  return ROUTER_POST.replace(':slug', slug)
 }

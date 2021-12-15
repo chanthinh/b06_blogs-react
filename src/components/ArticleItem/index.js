@@ -6,6 +6,7 @@ import ArticleItemTitle from './ArticleItemTitle';
 import ArticleItemInfo from './ArticleItemInfo';
 import ArticleItemCategories from './ArticleItemCategories';
 import ArticleItemStats from './ArticleItemStats';
+import { genPostLink, genUserLink } from '../../helpers';
 
 export default function ArticleItem({
   isStyleRow = false,
@@ -37,8 +38,8 @@ export default function ArticleItem({
   const shortDescHTML = post.shortDescHTML
   const viewCount = post.viewCount
 
-  const slugLink = '/post/' + slug
-  const authorLink = '/user/' + authorId
+  const slugLink = genPostLink(slug)
+  const authorLink = genUserLink(authorId)
 
 
   return (

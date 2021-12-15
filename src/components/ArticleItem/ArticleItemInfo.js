@@ -1,8 +1,9 @@
-import relativeTime from 'dayjs/plugin/relativeTime'
-import localeVi from 'dayjs/locale/vi'
-import dayjs from 'dayjs'
+// import relativeTime from 'dayjs/plugin/relativeTime'
+// import localeVi from 'dayjs/locale/vi'
+// import dayjs from 'dayjs'
 import { Link } from 'react-router-dom';
-import { DATE_TEMPLATE } from '../../constants';
+import { formatRelativeDate } from '../../helpers/day';
+// import { DATE_TEMPLATE } from '../../constants';
 import ArticleItemAvatar from './ArticleItemAvatar';
 
 export default function ArticleItemInfo({
@@ -11,13 +12,15 @@ export default function ArticleItemInfo({
   createdDate,
   authorLink
 }) {
+  
+  // dayjs.extend(relativeTime)
+  // dayjs.locale(localeVi)
+  
+  // const dateRelative = createdDateObj.fromNow()
+  // const createdDateObj = dayjs(createdDate)
+  // const dateFormatted = createdDateObj.format(DATE_TEMPLATE)
 
-  const createdDateObj = dayjs(createdDate)
-  const dateFormatted = createdDateObj.format(DATE_TEMPLATE)
-
-  dayjs.extend(relativeTime)
-  const dateRelative = createdDateObj.fromNow()
-  dayjs.locale(localeVi)
+const {dateRelative,dateFormatted } = formatRelativeDate(createdDate)
 
   return (
     <div className="article-item__info">
