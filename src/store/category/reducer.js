@@ -1,4 +1,4 @@
-import { ACT_FETCH_ALL_CATEGORIES } from "./action";
+import { ACT_FETCH_ALL_CATEGORIES } from "./actions";
 
 export const initSate = {
     hashCategoryById: {},

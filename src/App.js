@@ -14,9 +14,10 @@ import {
 } from "react-router-dom";
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { actFetchAllCategoriesAsync } from './store/category/action';
+import { actFetchAllCategoriesAsync } from './store/category/actions';
 import { actFetchMeAsync } from './store/auth/actions';
 import SearchCategory from './pages/SearchCategory';
+import { actFetchMainMenuAsync } from './store/menu/actions';
 
 
 function App() {
@@ -24,6 +25,7 @@ const dispatch = useDispatch()
   useEffect(()=>{
     dispatch(actFetchAllCategoriesAsync())
     dispatch(actFetchMeAsync())
+    dispatch(actFetchMainMenuAsync())
   },[dispatch])
 
   return (
