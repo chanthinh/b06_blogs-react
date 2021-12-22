@@ -51,7 +51,8 @@ export const mappingComment = commentItem => {
     authorAvatar: commentItem.author_data.avatar || DEFAULT_AVATAR,
     contentHTML: commentItem.content.rendered,
     createdDate: commentItem.date,
-    authorId: commentItem.author
+    authorId: commentItem.author,
+    replyCount: commentItem.comment_reply_count
   }
 }
 
