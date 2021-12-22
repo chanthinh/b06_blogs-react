@@ -1,4 +1,4 @@
-import { MESSAGE_FORM_ERROR, ROUTER_POST } from "../constants";
+import { DEFAULT_AVATAR, MESSAGE_FORM_ERROR, ROUTER_POST } from "../constants";
 
 export { formatRelativeDate } from './day'
 
@@ -40,6 +40,19 @@ export const mappingMainMenus = menuItem => {
   }
   data.childItems = data.childItems.map(mappingMainMenus)
   return data
+}
+
+export const mappingComment = commentItem => {
+  return {
+    id: commentItem.id,
+    postId: commentItem.post,
+    parentId: commentItem.parent,
+    authorName: commentItem.author_name,
+    authorAvatar: commentItem.author_data.avatar || DEFAULT_AVATAR,
+    contentHTML: commentItem.content.rendered,
+    createdDate: commentItem.date,
+    authorId: commentItem.author
+  }
 }
 
 export function mappingPostDetailData(post) {
