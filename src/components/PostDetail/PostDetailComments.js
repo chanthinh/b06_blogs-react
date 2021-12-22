@@ -8,12 +8,14 @@ function PostDetailComments() {
     <div className="post-detail__comments">
       <CommentForm />
       <p>20 Comments</p>
+
       <ul className="comments">
-        <CommentItem parentId={0}/>
-        <CommentItem parentId={0}/>
-        <CommentItem parentId={0}/>
+        <CommentItem parentId={0} />
+        <CommentItem parentId={0} />
+        <CommentItem parentId={0} />
       </ul>
-      <CommentAction count={43} parent={true} spacingTop/>
+
+      <CommentAction count={43} parent={true} spacingTop />
     </div>
   )
 }

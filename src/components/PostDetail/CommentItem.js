@@ -22,7 +22,7 @@ function CommentItem(props) {
             </div>
             {/* Reply Comments */}
             {
-                isThisParent && (
+                isThisParent && false && (
                     <ul className="comments">
                         <CommentItem parentId={1313213} />
                         <CommentItem parentId={4325432} />

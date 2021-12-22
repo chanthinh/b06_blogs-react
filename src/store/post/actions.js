@@ -1,5 +1,6 @@
 import { mappingPostData, mappingPostDetailData } from "../../helpers"
 import postService from "../../services/post"
+import actFetchCommentsAsync from '../comment/actions'
 
 // Action Types
 export const ACT_FETCH_ARTICLE_LASTEST = 'ACT_FETCH_ARTICLE_LASTEST'
@@ -121,8 +122,9 @@ export function actFetchPostDetailAsync(slug) {
             const postId = post.id
             const authorId = post.author
 
+            dispatch(actFetchCommentsAsync({postId}))
             dispatch(actFetchPostDetail(mappingPostDetailData(post)))
-            await dispatch(actFetchRelatedPostsAsync({ postId, authorId }))
+            dispatch(actFetchRelatedPostsAsync({ postId, authorId }))
 
             return { ok: true }
         } catch (err) {
