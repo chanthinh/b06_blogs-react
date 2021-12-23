@@ -1,21 +1,42 @@
+import { useCommentsPaging } from '../../hooks/useCommentsPaging'
 import CommentAction from './CommentAction'
 import CommentForm from './CommentForm'
 import CommentItem from './CommentItem'
 import './comments.css'
 
+const handleMapComments = commentItem => (
+  <CommentItem
+    key={commentItem.id}
+    parentId={commentItem.parentId}
+    comment={commentItem}
+  />
+)
+
 function PostDetailComments() {
+
+  const { comments, total, loading, handleLoadMore } = useCommentsPaging()
+  console.log(comments)
+
   return (
     <div className="post-detail__comments">
       <CommentForm />
-      <p>20 Comments</p>
+      <p>{total} Bình luận</p>
 
-      <ul className="comments">
-        <CommentItem parentId={0} />
-        <CommentItem parentId={0} />
-        <CommentItem parentId={0} />
-      </ul>
+      {
+        comments.length > 0 && (
+          <ul className="comments">
+            {comments.map(handleMapComments)}
+          </ul>
+        )
+      }
 
-      <CommentAction count={43} parent={true} spacingTop />
+      <CommentAction
+        count={total - comments.length}
+        parent={true}
+        spacingTop
+        loading={loading}
+        onClick={handleLoadMore}
+      />
     </div>
   )
 }

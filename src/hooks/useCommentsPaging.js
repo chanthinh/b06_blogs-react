@@ -1,41 +1,49 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import Button from "../components/shared/Button"
-import { actFetchArticlesAsync } from "../store/post/actions"
+import actFetchCommentsAsync from "../store/comment/actions"
 
+const fnPostIdSelector = state => state.Post.postDetail && state.Post.postDetail.id
+const fnParentPagingSelector = state => state.Comment.parentPaging
 
-export function usePostsPaging({
+export function useCommentsPaging({
     extraParams = {}
 } = {}) {
     const dispatch = useDispatch()
+    const postId = useSelector(fnPostIdSelector)
     const {
-        list: posts,
+        list: comments,
         currentPage,
         totalPages,
         total
-    } = useSelector(state => state.Post.articlePaging)
+    } = useSelector(fnParentPagingSelector)
     const [loading, setLoading] = useState(false)
-    const hasMorePost = currentPage < totalPages
+    const hasMoreComments = currentPage < totalPages
     // console.log('posts', posts)
 
-
     function handleLoadMore() {
-
         if (loading) {
             return
         }
 
         setLoading(true)
-        dispatch(actFetchArticlesAsync({
+        const params = {
             currentPage: currentPage + 1,
+            postId: postId,
+            parant: 0,
             ...extraParams
-        })).then(() => {
-            setLoading(false)
-        })
+        }
+
+        dispatch(actFetchCommentsAsync(params))
+            .then(() => {
+                setLoading(false)
+            })
     }
 
     return {
-        posts,
+        comments,
         total,
+        handleLoadMore,
+        hasMoreComments,
+        totalPages
     }
 }

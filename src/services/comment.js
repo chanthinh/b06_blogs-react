@@ -14,6 +14,7 @@ const commentService = {
                 page: currentPage,
                 post: postId,
                 parent: parentId,
+                order: 'asc',
                 lang: 'vi',
                 ...restParams
             }

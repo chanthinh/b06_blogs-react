@@ -20,16 +20,18 @@ export function usePostsPaging({
 
 
     function handleLoadMore() {
-
         if (loading) {
             return
         }
 
         setLoading(true)
-        dispatch(actFetchArticlesAsync({
+        const params = {
             currentPage: currentPage + 1,
             ...extraParams
-        })).then(() => {
+        }
+
+        dispatch(actFetchArticlesAsync(params))
+        .then(() => {
             setLoading(false)
         })
     }
