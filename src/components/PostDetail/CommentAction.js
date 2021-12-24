@@ -1,11 +1,13 @@
 import cls from 'classnames'
+import IconLoading from '../shared/IconLoading'
 
 function CommentAction({
     count,
     spacingTop,
     spacingBottom,
     parent,
-    onClick
+    onClick,
+    loading
 }) {
     function _onClick(evt) {
         evt.preventDefault()
@@ -31,7 +33,9 @@ function CommentAction({
     return (
         <div className={classes}>
             <button onClick={_onClick}>
-                <i className='icons ion-ios-undo' /> {label}</button>
+                <i className='icons ion-ios-undo' /> {label}
+                {loading && <IconLoading width="1em"/>}
+            </button>
         </div>
     )
 }

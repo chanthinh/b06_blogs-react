@@ -44,6 +44,7 @@ export function useCommentsPaging({
         total,
         handleLoadMore,
         hasMoreComments,
-        totalPages
+        totalPages,
+        loading
     }
 }
