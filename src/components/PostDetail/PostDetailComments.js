@@ -15,7 +15,6 @@ const handleMapComments = commentItem => (
 function PostDetailComments() {
 
   const { comments, total, loading, handleLoadMore } = useCommentsPaging()
-  console.log(comments)
 
   return (
     <div className="post-detail__comments">
