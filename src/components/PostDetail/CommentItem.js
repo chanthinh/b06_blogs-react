@@ -8,7 +8,7 @@ function CommentItem(props) {
 
     return (
         <li className="item">
-            <CommentSection comment={props.comment}/>
+            <CommentSection comment={props.comment} />
             {/* Reply Comments */}
             {
                 isThisParent && false && (
@@ -20,8 +20,8 @@ function CommentItem(props) {
             }
 
             {
-                isThisParent && (
-                    <CommentAction count={20}/>
+                isThisParent && props.comment.replyCount > 0 && (
+                    <CommentAction count={props.comment.replyCount} />
                 )
             }
 

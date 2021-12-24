@@ -2,6 +2,7 @@ import { mappingComment } from "../../helpers"
 import commentService from "../../services/comment"
 
 export const ACT_FETCH_COMMENTS_PARENT = 'ACT_FETCH_COMMENTS_PARENT'
+export const ACT_INIT_CHILDREN_PAGING = 'ACT_INIT_CHILDREN_PAGING'
 
 export function actFetchComments({
     comments,
@@ -17,6 +18,13 @@ export function actFetchComments({
             total,
             totalPages
         }
+    }
+}
+
+export function actInitChildrenPaging(comments) {
+    return {
+        type: ACT_INIT_CHILDREN_PAGING,
+        payload: { comments }
     }
 }
 
@@ -41,6 +49,10 @@ function actFetchCommentsAsync({
             const total = Number(response.headers['x-wp-total'])
             const totalPages = Number(response.headers['x-wp-totalpages'])
             const comments = response.data.map(mappingComment)
+
+            if (parentId === 0) {
+                dispatch(actInitChildrenPaging(comments))
+            }
 
             dispatch(actFetchComments({
                 comments,

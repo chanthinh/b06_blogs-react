@@ -1,10 +1,11 @@
-import { ACT_FETCH_COMMENTS_PARENT } from "./actions";
+import { ACT_FETCH_COMMENTS_PARENT, ACT_INIT_CHILDREN_PAGING } from "./actions";
 
 const initState = {
     parentPaging: {
         list: [],
         currentPage: 1
-    }
+    },
+    hashChildPaging: {}
 }
 
 function reducer(commentState = initState, action) {
@@ -23,6 +24,24 @@ function reducer(commentState = initState, action) {
                     total: action.payload.total,
                     totalPages: action.payload.totalPages,
                     currentPage: action.payload.currentPage
+                }
+            }
+        case ACT_INIT_CHILDREN_PAGING:
+            return {
+                ...commentState,
+                hashChildPaging: {
+                    ...commentState.hashChildPaging,
+                    ...action.payload.comments.reduce((output, commentItem) => {
+                        if (commentItem.replyCount > 0) {
+                            output[commentItem.id] = {
+                                list: [],
+                                currentPage: 0,
+                                total: 0,
+                                totalPages: 1
+                            }
+                        }
+                        return output
+                    }, {})
                 }
             }
         default:
