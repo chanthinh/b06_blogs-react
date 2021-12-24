@@ -3,15 +3,17 @@ import commentService from "../../services/comment"
 
 export const ACT_FETCH_COMMENTS_PARENT = 'ACT_FETCH_COMMENTS_PARENT'
 export const ACT_INIT_CHILDREN_PAGING = 'ACT_INIT_CHILDREN_PAGING'
+export const ACT_INIT_CHILDREN_REPLY = 'ACT_INIT_CHILDREN_REPLY'
 
 export function actFetchComments({
     comments,
     currentPage,
     total,
-    totalPages
+    totalPages,
+    parentId
 }) {
     return {
-        type: ACT_FETCH_COMMENTS_PARENT,
+        type: parentId === 0 ? ACT_FETCH_COMMENTS_PARENT : ACT_INIT_CHILDREN_REPLY,
         payload: {
             comments,
             currentPage,
@@ -49,7 +51,7 @@ function actFetchCommentsAsync({
             const total = Number(response.headers['x-wp-total'])
             const totalPages = Number(response.headers['x-wp-totalpages'])
             const comments = response.data.map(mappingComment)
-
+            
             if (parentId === 0) {
                 dispatch(actInitChildrenPaging(comments))
             }
@@ -58,7 +60,8 @@ function actFetchCommentsAsync({
                 comments,
                 currentPage,
                 total,
-                totalPages
+                totalPages,
+                parentId
             }))
 
         } catch (err) {

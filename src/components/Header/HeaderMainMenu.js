@@ -24,7 +24,6 @@ const handleMapMainMenu = menuItem => {
 
 function HeaderMainMenu() {
     const mainMenus = useSelector(state => state.Menu.mainMenus)
-    console.log('mainMenus', mainMenus)
 
     return (
         <ul className="header-nav__lists">

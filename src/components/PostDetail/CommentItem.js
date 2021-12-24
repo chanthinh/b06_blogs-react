@@ -1,3 +1,4 @@
+import { useCommentsPaging } from "../../hooks/useCommentsPaging"
 import CommentAction from "./CommentAction"
 import CommentForm from "./CommentForm"
 import CommentSection from "./CommentSection"
@@ -5,7 +6,12 @@ import CommentSection from "./CommentSection"
 function CommentItem(props) {
 
     const isThisParent = props.parentId === 0
-
+    const {
+        comments: replyComments,
+        handleLoadMore
+    } = useCommentsPaging({
+        parentId: props.parentId
+    })
     return (
         <li className="item">
             <CommentSection comment={props.comment} />
@@ -21,7 +27,7 @@ function CommentItem(props) {
 
             {
                 isThisParent && props.comment.replyCount > 0 && (
-                    <CommentAction count={props.comment.replyCount} />
+                    <CommentAction count={props.comment.replyCount} onClick={handleLoadMore} />
                 )
             }
 
